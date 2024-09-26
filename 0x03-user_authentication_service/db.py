@@ -56,7 +56,7 @@ class DB:
             else:
                 raise InvalidRequestError()
 
-        result = self.__session.query(User).filter(
+        result = self._session.query(User).filter(
             tuple_(*fields) == tuple(values)
         ).first()
         if result is None:
@@ -76,7 +76,7 @@ class DB:
                 update_values[getattr(User, key)] = value
             else:
                 raise ValueError()
-        self.__session.query(User).filter(User.id == user_id).update(
+        self._session.query(User).filter(User.id == user_id).update(
             update_values,
             synchronize_session=False,
         )
