@@ -45,7 +45,7 @@ class DB:
 
         return user
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs) -> User:
         """ Finds a user from a given parameters
         """
         fields, values = [], []
@@ -57,7 +57,7 @@ class DB:
                 raise InvalidRequestError()
 
         result = self.__session.query(User).filter(
-            tuple_(*fields).in_([tuple(values)])
+            tuple_(*fields) == tuple(values)
         ).first()
         if result is None:
             raise NoResultFound()
