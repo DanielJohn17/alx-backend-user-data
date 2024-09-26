@@ -5,7 +5,8 @@ from sqlalchemy import create_engine, tuple_
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-from sqlalchemy.exc import InvalidRequestError, NoResultFound
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
 
 from user import Base, User
 
@@ -47,16 +48,16 @@ class DB:
     def find_user_by(self, **kwargs):
         """ Finds a user from a given parameters
         """
-        fileds, values = [], []
+        fildes, values = [], []
         for key, value in kwargs.items():
             if hasattr(User, key):
-                fileds.append(getattr(User, key))
+                fildes.append(getattr(User, key))
                 values.append(value)
             else:
                 raise InvalidRequestError()
 
         result = self.__session.query(User).filter(
-            tuple_(*fileds) == tuple(values)
+            tuple_(*fildes) == tuple(values)
         ).first()
         if result is None:
             raise NoResultFound()
